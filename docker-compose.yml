@@ -8,3 +8,10 @@ services:
       - "5123:5123"
     env_file:
       - stack.env
+    networks:
+      - emqxNet
+
+networks:
+  emqxNet:
+    name: emqxNet
+    external: true
