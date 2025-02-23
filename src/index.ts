@@ -1,7 +1,7 @@
 import express from 'express'
 import { MongoClient } from 'mongodb';
 const app = express()
-const port = 5123
+const port = 3000
 
 const mongo_uri = process.env.MONGO_URI!;
 

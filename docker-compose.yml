@@ -4,8 +4,6 @@ services:
   app:
     container_name: iclock-emqx-mongo-connector
     build: .
-    ports:
-      - "5123:5123"
     env_file:
       - stack.env
     networks:
