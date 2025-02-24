@@ -3,8 +3,7 @@ FROM node:20
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
-ARG COMMIT_HASH
-RUN echo "Commit Hash: $COMMIT_HASH" > /app/commit-hash.txt
+
 # Copy package.json and package-lock.json (or npm-shrinkwrap.json)
 COPY package*.json ./
 
@@ -13,6 +12,9 @@ RUN npm install
 
 # Bundle app source inside Docker image
 COPY . .
+
+ARG COMMIT_HASH
+RUN echo "Commit Hash: $COMMIT_HASH" > /app/commit-hash.txt
 
 # Make port 3000 available to the world outside this container
 EXPOSE 3000
