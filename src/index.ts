@@ -42,10 +42,19 @@ app.post('/emqx/ingest', async (req, res) => {
         }
     }
     const result = await devices.updateOne(filter, update);
-    console.log(
-        `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-    );
-    res.send('Hello World!')
+    // add to history collection
+    const history = database.collection('history');
+    const history_entry = {
+        device_id: device_id,
+        stat: stat,
+        timestamp: new Date(),
+        value: emqx_message.payload
+    }
+    const result2 = await history.insertOne(history_entry);
+
+    console.log(`Received message from ${device_id} with stat ${stat} and value ${emqx_message.payload}`);
+
+    res.send('OK');
 })
 
 app.listen(port, () => {
