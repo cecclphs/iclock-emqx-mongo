@@ -3,11 +3,17 @@ version: '3.1'
 services:
   app:
     container_name: iclock-emqx-mongo-connector
-    build: .
-    env_file:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Ensure this points to your Dockerfile
+      args:
+        - COMMIT_HASH=${COMMIT_HASH:-default}  # Fallback to 'default' if not set    
+      env_file:
       - stack.env
+      - .env
     networks:
       - emqxNet
+    restart: always
 
 networks:
   emqxNet:
