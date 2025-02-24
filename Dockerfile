@@ -14,7 +14,9 @@ RUN npm install
 COPY . .
 
 ARG COMMIT_HASH
-RUN echo "Commit Hash: $COMMIT_HASH" > /app/commit-hash.txt
+RUN echo "Commit Hash: $COMMIT_HASH" > commit-hash.txt && \
+    echo "Building with COMMIT_HASH=$COMMIT_HASH" && \
+    ls -la /usr/src/app
 
 # Make port 3000 available to the world outside this container
 EXPOSE 3000
