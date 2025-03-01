@@ -57,6 +57,24 @@ app.post('/emqx/ingest', async (req, res) => {
     res.send('OK');
 })
 
+app.post('/emqx/firmware', async (req, res) => {
+    const emqx_message = req.body as EMQXMessage;
+    const device_id = emqx_message.clientid;
+    const firmware_version = emqx_message.payload;
+    const filter  = {
+        device_id: device_id,
+    }
+    const update = {
+        $set: {
+            last_seen: new Date(),
+            fw_version: firmware_version
+        }
+    }
+    const result = await devices.updateOne(filter, update);
+    console.log(`Received firmware version from ${device_id}: ${firmware_version}`);
+    res.send('OK');
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
