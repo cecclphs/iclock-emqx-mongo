@@ -43,7 +43,7 @@ const job = new CronJob('0 */1 * * * *', async () => {
         // Calculate average for numeric values
         const numericValues = values.map(v => parseFloat(v.value));
         const averageValue = numericValues.reduce((a, b) => a + b, 0) / numericValues.length;
-        finalValue = averageValue.toString();
+        finalValue = averageValue.toFixed(2);
       } else {
         // For non-numeric values, use the most recent value
         const latestRecord = values.sort((a, b) => 
