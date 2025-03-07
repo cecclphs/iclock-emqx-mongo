@@ -8,6 +8,9 @@ const client = new MongoClient(mongo_uri);
 const database = client.db('iotdata');
 const devices = database.collection('devices');
 
+
+const isNumeric = (string: string) => /^[+-]?\d+(\.\d+)?$/.test(string)
+
 const job = new CronJob('0 */1 * * * *', async () => {
   try {
     const temp_history = database.collection('temp_history');
@@ -36,10 +39,10 @@ const job = new CronJob('0 */1 * * * *', async () => {
       const [device_id, stat] = key.split('/');
       
       // Check if values are numeric
-      const isNumeric = values.every(v => !isNaN(parseFloat(v.value)));
+      const isNumber = values.every(v => isNumeric(v.value));
       
       let finalValue;
-      if (isNumeric) {
+      if (isNumber) {
         // Calculate average for numeric values
         const numericValues = values.map(v => parseFloat(v.value));
         const averageValue = numericValues.reduce((a, b) => a + b, 0) / numericValues.length;
