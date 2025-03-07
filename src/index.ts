@@ -23,7 +23,7 @@ const job = new CronJob('0 */1 * * * *', async () => {
 
     // Group records by device_id and stat
     const groupedRecords = records.reduce((acc, record) => {
-      const key = `${record.device_id}_${record.stat}`;
+      const key = `${record.device_id}/${record.stat}`;
       if (!acc[key]) {
         acc[key] = [];
       }
@@ -33,7 +33,7 @@ const job = new CronJob('0 */1 * * * *', async () => {
 
     // Process each group
     for (const [key, values] of Object.entries(groupedRecords)) {
-      const [device_id, stat] = key.split('_');
+      const [device_id, stat] = key.split('/');
       
       // Check if values are numeric
       const isNumeric = values.every(v => !isNaN(parseFloat(v.value)));
