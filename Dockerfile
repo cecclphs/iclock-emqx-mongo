@@ -1,5 +1,5 @@
 # Use an official Node runtime as a parent image
-FROM node:20
+FROM oven/bun:1 AS base
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install any needed packages specified in package.json
-RUN npm install
+RUN bun install
 
 # Bundle app source inside Docker image
 COPY . .
@@ -22,4 +22,4 @@ RUN echo "Commit Hash: $COMMIT_HASH" > commit-hash.txt && \
 EXPOSE 3000
 
 # Run the app when the container launches
-CMD ["npm", "start"]
+CMD ["bun", "run", "start"]
