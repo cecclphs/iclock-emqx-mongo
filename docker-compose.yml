@@ -5,7 +5,7 @@ services:
     image: iclock-emqx-mongo-connector:${COMMIT_HASH:-latest}  # Fallback to 'latest' if not set
     build:
       context: .
-      dockerfile: Dockerfile  # Ensure this points to your Dockerfile
+      dockerfile: Dockerfile.sync  # Ensure this points to your Dockerfile
       args:
         - COMMIT_HASH=${COMMIT_HASH:-default}  # Fallback to 'default' if not set    
     env_file:
@@ -16,7 +16,21 @@ services:
     restart: always
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 4
+
+  iclock-mongo-cronjob:
+    image: iclock-mongo-cronjob:${COMMIT_HASH:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile.cron
+      args:
+        - COMMIT_HASH=${COMMIT_HASH:-default}
+    env_file:
+      - stack.env
+      - .env
+    networks:
+      - emqxNet
+    restart: always
 
 networks:
   emqxNet:

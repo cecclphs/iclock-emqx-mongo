@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "bun run src/index.ts",
+    "cron": "bun run src/cron.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
