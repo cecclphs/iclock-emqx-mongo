@@ -11,7 +11,7 @@ const devices = database.collection('devices');
 
 const isNumeric = (string: string) => /^[+-]?\d+(\.\d+)?$/.test(string)
 
-const job = new CronJob('0 */1 * * * *', async () => {
+const job = new CronJob('0 */5 * * * *', async () => {
   try {
     const temp_history = database.collection('temp_history');
     const history = database.collection('history');
@@ -21,8 +21,11 @@ const job = new CronJob('0 */1 * * * *', async () => {
     currentMinute.setSeconds(0);
     currentMinute.setMilliseconds(0);
 
+    const logStatKeys = ['temp', 'hum', 'lux', 'rssi']
     // Get all records from temp_history
-    const records = await temp_history.find({}).toArray();
+    const records = await temp_history.find({
+      stats: { $in: logStatKeys },
+    }).toArray();
 
     // Group records by device_id and stat
     const groupedRecords = records.reduce((acc, record) => {
