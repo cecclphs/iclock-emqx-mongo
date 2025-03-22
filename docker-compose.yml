@@ -16,7 +16,7 @@ services:
     restart: always
     deploy:
       mode: replicated
-      replicas: 4
+      replicas: 1
 
 networks:
   emqxNet:
