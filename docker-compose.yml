@@ -2,7 +2,6 @@ version: '3.1'
 
 services:
   app:
-    container_name: iclock-emqx-mongo-connector
     image: iclock-emqx-mongo-connector:${COMMIT_HASH:-latest}  # Fallback to 'latest' if not set
     build:
       context: .
