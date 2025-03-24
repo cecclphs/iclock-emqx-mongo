@@ -16,7 +16,7 @@ services:
     restart: always
     deploy:
       mode: replicated
-      replicas: 4
+      replicas: 8
 
   iclock-mongo-cronjob:
     image: iclock-mongo-cronjob:${COMMIT_HASH:-latest}
